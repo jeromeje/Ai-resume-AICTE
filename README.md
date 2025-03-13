@@ -70,23 +70,22 @@ scikit-learn → TF-IDF & Cosine Similarity
 
 1️⃣ Clone the Repository
 
-git clone https://github.com/your-username/resume-screening.git  
-cd resume-screening
+git clone   https://github.com/jeromeje/Ai-resume-AICTE.git
 
 2️⃣ Install Dependencies
 
-pip install streamlit pymongo PyPDF2 scikit-learn pandas matplotlib
+  pip install streamlit pymongo PyPDF2 scikit-learn pandas matplotlib
 
 3️⃣ Set Up MongoDB
 
-Use MongoDB Atlas or run MongoDB locally
+  Use MongoDB Atlas or run MongoDB locally
 
-Create a database & collection for users, jobs, and resumes
+  Create a database & collection for users, jobs, and resumes
 
 
 4️⃣ Run the Application
 
-streamlit run app.py
+  streamlit run app.py
 
 
 ---
