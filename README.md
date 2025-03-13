@@ -70,11 +70,11 @@ scikit-learn → TF-IDF & Cosine Similarity
 
 1️⃣ Clone the Repository
 
-git clone   https://github.com/jeromeje/Ai-resume-AICTE.git
+git clone https://github.com/jeromeje/Ai-resume-AICTE.git
 
 2️⃣ Install Dependencies
 
-  pip install streamlit pymongo PyPDF2 scikit-learn pandas matplotlib
+pip install streamlit pymongo PyPDF2 scikit-learn pandas matplotlib
 
 3️⃣ Set Up MongoDB
 
@@ -85,7 +85,7 @@ git clone   https://github.com/jeromeje/Ai-resume-AICTE.git
 
 4️⃣ Run the Application
 
-  streamlit run app.py
+streamlit run Ai_resume_ranking.py
 
 
 ---
