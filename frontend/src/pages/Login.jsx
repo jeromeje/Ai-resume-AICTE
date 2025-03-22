@@ -1,46 +1,4 @@
-// import { useState } from "react";
-// import { API_URL } from "../api/apiConfig";
-// import { useNavigate } from "react-router-dom";
 
-// const Login = () => {
-//     const [formData, setFormData] = useState({ email: "", password: "" });
-//     const navigate = useNavigate();
-
-//     const handleChange = (e) => {
-//         setFormData({ ...formData, [e.target.name]: e.target.value });
-//     };
-
-//     const handleSubmit = async (e) => {
-//         e.preventDefault();
-//         const response = await fetch(`${API_URL}/auth/login`, {
-//             method: "POST",
-//             headers: { "Content-Type": "application/json" },
-//             body: JSON.stringify(formData),
-//         });
-
-//         const data = await response.json();
-//         if (response.ok) {
-//             localStorage.setItem("token", data.token);
-//             alert("Login Successful");
-//             navigate("/");
-//         } else {
-//             alert("Invalid Credentials");
-//         }
-//     };
-
-//     return (
-//         <div className="container mt-4">
-//             <h2>Login</h2>
-//             <form onSubmit={handleSubmit}>
-//                 <input type="email" name="email" placeholder="Email" onChange={handleChange} required />
-//                 <input type="password" name="password" placeholder="Password" onChange={handleChange} required />
-//                 <button type="submit" className="btn btn-primary">Login</button>
-//             </form>
-//         </div>
-//     );
-// };
-
-// export default Login;
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Form, Button, Card, Container, Row, Col, Spinner, InputGroup } from 'react-bootstrap';
@@ -73,11 +31,15 @@ const Login = () => {
 
       const data = await response.json();
 
-      if (response.ok) {
-        localStorage.setItem("token", data.token);
-        toast.success("Login Successful");
-        navigate("/candidate");
-      } else {
+      // Inside if (response.ok) block
+if (response.ok) {
+  localStorage.setItem("token", data.token);
+  localStorage.setItem("email", email); // ✅ Store email
+  toast.success("Login Successful");
+  navigate("/candidate");
+}
+
+       else {
         toast.error("Invalid Credentials");
       }
     } catch (error) {

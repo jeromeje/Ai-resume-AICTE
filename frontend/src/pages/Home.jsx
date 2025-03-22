@@ -1,29 +1,3 @@
-// import { useEffect, useState } from "react";
-// import { API_URL } from "../api/apiConfig";
-// import JobCard from "../components/JobCard";
-
-// const Home = () => {
-//     const [jobs, setJobs] = useState([]);
-
-//     useEffect(() => {
-//         fetch(`${API_URL}/jobs`)
-//             .then((res) => res.json())
-//             .then((data) => setJobs(data));
-//     }, []);
-
-//     return (
-//         <div className="container mt-4">
-//             <h2>Available Jobs</h2>
-//             <div className="row">
-//                 {jobs.map((job) => (
-//                     <JobCard key={job._id} job={job} />
-//                 ))}
-//             </div>
-//         </div>
-//     );
-// };
-
-// export default Home;
 
 import { useEffect, useState } from "react";
 import { API_URL } from "../api/apiConfig";

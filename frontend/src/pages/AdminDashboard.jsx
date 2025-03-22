@@ -99,33 +99,146 @@
 
 
 
+// import { useState, useEffect } from "react";
+// import { Button, Card, Container, Table, Row, Col, Spinner, Form } from "react-bootstrap";
+// import { FaUsers, FaBriefcase, FaChartBar, FaDownload } from "react-icons/fa";
+// import { Link } from "react-router-dom";
+// import axios from "axios";
+
+// export default function AdminDashboardPage() {
+//   const [candidates, setCandidates] = useState([]);
+//   const [minScore, setMinScore] = useState(70);
+//   const [jobFilter, setJobFilter] = useState("all");
+//   const [exportLoading, setExportLoading] = useState(false);
+
+//   // Fetch candidates from the backend
+//   useEffect(() => {
+//     const fetchCandidates = async () => {
+//       try {
+//         const response = await axios.get("http://localhost:5000/api/candidates");
+//         setCandidates(response.data);
+//       } catch (error) {
+//         console.error("Error fetching candidates:", error);
+//       }
+//     };
+//     fetchCandidates();
+//   }, []);
+
+//   const filteredCandidates = candidates.filter(
+//     (candidate) => candidate.score >= minScore && (jobFilter === "all" || candidate.jobTitle === jobFilter)
+//   );
+
+//   const jobTitles = Array.from(new Set(candidates.map((c) => c.jobTitle)));
+
+//   const handleExportCSV = async () => {
+//     setExportLoading(true);
+//     try {
+//       const response = await axios.get("http://localhost:5000/api/candidates/export", {
+//         responseType: "blob",
+//       });
+//       const url = window.URL.createObjectURL(new Blob([response.data]));
+//       const link = document.createElement("a");
+//       link.href = url;
+//       link.setAttribute("download", "candidates.csv");
+//       document.body.appendChild(link);
+//       link.click();
+//     } catch (error) {
+//       console.error("Error exporting CSV:", error);
+//     }
+//     setExportLoading(false);
+//   };
+
+//   return (
+//     <Container className="py-4">
+//       <h1 className="mb-4">Admin Dashboard</h1>
+//       <Link to="/add-job" className="btn btn-primary mb-4">Go to Add Job Page</Link>
+//       <Row className="mb-4">
+//         <Col md={4}><Card body><FaUsers /> Total Candidates: {candidates.length}</Card></Col>
+//         <Col md={4}><Card body><FaBriefcase /> Open Jobs: {jobTitles.length}</Card></Col>
+//         <Col md={4}><Card body><FaChartBar /> Avg. Match Score: {candidates.length > 0 ? Math.round(candidates.reduce((sum, c) => sum + c.score, 0) / candidates.length) : 0}%</Card></Col>
+//       </Row>
+//       <Card className="mb-4">
+//         <Card.Body>
+//           <h5>Resume Screening Results</h5>
+//           <Form>
+//             <Row>
+//               <Col md={4}>
+//                 <Form.Group controlId="minScore">
+//                   <Form.Label>Min Score</Form.Label>
+//                   <Form.Control type="number" value={minScore} onChange={(e) => setMinScore(e.target.value)} />
+//                 </Form.Group>
+//               </Col>
+//               <Col md={4}>
+//                 <Form.Group controlId="jobFilter">
+//                   <Form.Label>Job Filter</Form.Label>
+//                   <Form.Control as="select" value={jobFilter} onChange={(e) => setJobFilter(e.target.value)}>
+//                     <option value="all">All</option>
+//                     {jobTitles.map((title, index) => (
+//                       <option key={index} value={title}>{title}</option>
+//                     ))}
+//                   </Form.Control>
+//                 </Form.Group>
+//               </Col>
+//               <Col md={4} className="d-flex align-items-end">
+//                 <Button onClick={handleExportCSV} disabled={exportLoading}>
+//                   {exportLoading ? <Spinner animation="border" size="sm" /> : <FaDownload />} Export CSV
+//                 </Button>
+//               </Col>
+//             </Row>
+//           </Form>
+//         </Card.Body>
+//       </Card>
+//       <Table striped bordered hover>
+//         <thead>
+//           <tr><th>Name</th><th>Email</th><th>Job Title</th><th>Score</th><th>Status</th></tr>
+//         </thead>
+//         <tbody>
+//           {filteredCandidates.map(candidate => (
+//             <tr key={candidate._id}><td>{candidate.name}</td><td>{candidate.email}</td><td>{candidate.jobTitle}</td><td>{candidate.score}%</td><td>{candidate.status}</td></tr>
+//           ))}
+//         </tbody>
+//       </Table>
+//     </Container>
+//   );
+// }
+
+
+
+// AdminDashboardPage.jsx
 import { useState, useEffect } from "react";
 import { Button, Card, Container, Table, Row, Col, Spinner, Form } from "react-bootstrap";
-import { FaUsers, FaBriefcase, FaChartBar, FaDownload } from "react-icons/fa";
+import { FaUsers, FaBriefcase, FaChartBar, FaDownload, FaUserFriends } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
 export default function AdminDashboardPage() {
   const [candidates, setCandidates] = useState([]);
+  const [users, setUsers] = useState([]);
   const [minScore, setMinScore] = useState(70);
   const [jobFilter, setJobFilter] = useState("all");
   const [exportLoading, setExportLoading] = useState(false);
 
-  // Fetch candidates from the backend
+  // Fetch candidates and users
   useEffect(() => {
-    const fetchCandidates = async () => {
+    const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/candidates");
-        setCandidates(response.data);
+        const [candidatesRes, usersRes] = await Promise.all([
+          axios.get("http://localhost:5000/api/candidates"),
+          axios.get("http://localhost:5000/api/candidates"),
+        ]);
+        setCandidates(candidatesRes.data);
+        setUsers(usersRes.data);
       } catch (error) {
-        console.error("Error fetching candidates:", error);
+        console.error("Error fetching data:", error);
       }
     };
-    fetchCandidates();
+    fetchData();
   }, []);
 
   const filteredCandidates = candidates.filter(
-    (candidate) => candidate.score >= minScore && (jobFilter === "all" || candidate.jobTitle === jobFilter)
+    (candidate) =>
+      candidate.score >= minScore &&
+      (jobFilter === "all" || candidate.jobTitle === jobFilter)
   );
 
   const jobTitles = Array.from(new Set(candidates.map((c) => c.jobTitle)));
@@ -151,12 +264,17 @@ export default function AdminDashboardPage() {
   return (
     <Container className="py-4">
       <h1 className="mb-4">Admin Dashboard</h1>
-      <Link to="/add-job" className="btn btn-primary mb-4">Go to Add Job Page</Link>
+      <Link to="/add-job" className="btn btn-primary mb-4">
+        Go to Add Job Page
+      </Link>
+
       <Row className="mb-4">
-        <Col md={4}><Card body><FaUsers /> Total Candidates: {candidates.length}</Card></Col>
-        <Col md={4}><Card body><FaBriefcase /> Open Jobs: {jobTitles.length}</Card></Col>
-        <Col md={4}><Card body><FaChartBar /> Avg. Match Score: {candidates.length > 0 ? Math.round(candidates.reduce((sum, c) => sum + c.score, 0) / candidates.length) : 0}%</Card></Col>
+        <Col md={3}><Card body><FaUsers /> Total Candidates: {candidates.length}</Card></Col>
+        <Col md={3}><Card body><FaBriefcase /> Open Jobs: {jobTitles.length}</Card></Col>
+        <Col md={3}><Card body><FaChartBar /> Avg. Match Score: {candidates.length > 0 ? Math.round(candidates.reduce((sum, c) => sum + c.score, 0) / candidates.length) : 0}%</Card></Col>
+        <Col md={3}><Card body><FaUserFriends /> Registered Users: {users.length}</Card></Col>
       </Row>
+
       <Card className="mb-4">
         <Card.Body>
           <h5>Resume Screening Results</h5>
@@ -188,16 +306,28 @@ export default function AdminDashboardPage() {
           </Form>
         </Card.Body>
       </Card>
+
+      <h5 className="mb-3">Candidate Table</h5>
       <Table striped bordered hover>
         <thead>
-          <tr><th>Name</th><th>Email</th><th>Job Title</th><th>Score</th><th>Status</th></tr>
+          <tr>
+            <th>Name</th><th>Email</th><th>Job Title</th><th>Score</th><th>Status</th>
+          </tr>
         </thead>
         <tbody>
-          {filteredCandidates.map(candidate => (
-            <tr key={candidate._id}><td>{candidate.name}</td><td>{candidate.email}</td><td>{candidate.jobTitle}</td><td>{candidate.score}%</td><td>{candidate.status}</td></tr>
+          {filteredCandidates.map((candidate) => (
+            <tr key={candidate._id}>
+              <td>{candidate.name}</td>
+              <td>{candidate.email}</td>
+              <td>{candidate.jobTitle}</td>
+              <td>{candidate.score}%</td>
+              <td>{candidate.status}</td>
+            </tr>
           ))}
         </tbody>
       </Table>
+
+ 
     </Container>
   );
 }

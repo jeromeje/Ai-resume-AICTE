@@ -7,7 +7,7 @@ function Navbar() {
                 <Link className="navbar-brand" to="/">Resume Screening</Link>
                 <div>
                     <Link className="btn btn-light me-2" to="/login">Login</Link>
-                    <Link className="btn btn-light" to="/register">Register</Link>
+                    <Link className="btn btn-light" to="/admin">Admin</Link>
                 </div>
             </div>
         </nav>

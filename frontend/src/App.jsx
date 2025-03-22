@@ -12,8 +12,8 @@ import AddJob from "./pages/AddJob";
 import JobDetails from "./pages/JobDetails";
 import AdminNav from "./pages/adminnav";
 
-import UploadResume from "./pages/Uploadresume";
 import Candidate from "./pages/CandidateDashboard";
+import CandidateInfo from "./pages/Candidateinfo";
 
 function App() {
     return (
@@ -36,8 +36,8 @@ function App() {
               <Route path="/adminnav" element={<AdminNav />} />
 
                 <Route path="/candidate" element={<Candidate />} />
-                <Route path="/upload" element={<UploadResume />} />
-
+                <Route path="/user-info" element={<CandidateInfo />} />
+                
             </Routes>
         </Router>
     );

@@ -12,16 +12,32 @@
 // module.exports = mongoose.model("Candidate", CandidateSchema);
 
 
+// const mongoose = require("mongoose");
+
+// const CandidateSchema = new mongoose.Schema({
+//   name: { type: String, required: true },
+//   email: { type: String, required: true, unique: true },
+//   jobTitle: { type: String, required: true },
+//   score: { type: Number, required: true },
+//   status: { type: String, default: "Pending" },
+// });
+
+// module.exports = mongoose.model("Candidate", CandidateSchema);
+
+
 const mongoose = require("mongoose");
 
-const CandidateSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
-  jobTitle: { type: String, required: true },
-  score: { type: Number, required: true },
-  status: { type: String, default: "Pending" },
+const candidateSchema = new mongoose.Schema({
+  name: String,
+  email: {
+    type: String,
+    required: true,
+  },
+  jobTitle: String,
+  score: Number,
 });
 
-module.exports = mongoose.model("Candidate", CandidateSchema);
+// Ensure one user can apply only once per job
+candidateSchema.index({ email: 1, jobTitle: 1 }, { unique: true });
 
-
+module.exports = mongoose.model("Candidate", candidateSchema);
